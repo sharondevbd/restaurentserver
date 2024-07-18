@@ -138,7 +138,7 @@ public partial class dbRestaurentContext : DbContext
 
             entity.Property(e => e.Quantity).HasColumnType("decimal(18, 2)");
 
-            entity.HasOne(d => d.Item).WithMany(p => p.RecipeItems).HasForeignKey(d => d.ItemId);
+            //entity.HasOne(d => d.Item).WithMany(p => p.RecipeItems).HasForeignKey(d => d.ItemId);
 
             entity.HasOne(d => d.Recipe).WithMany(p => p.RecipeItems).HasForeignKey(d => d.RecipeId);
         });

@@ -13,4 +13,6 @@ public partial class Recipe
     public virtual ICollection<DailyMenu> DailyMenus { get; set; } = new List<DailyMenu>();
 
     public virtual ICollection<RecipeItem> RecipeItems { get; set; } = new List<RecipeItem>();
+ //   [NotMapped]
+	//public virtual ICollection<Item> Items { get; set; } = new List<Item>();
 }

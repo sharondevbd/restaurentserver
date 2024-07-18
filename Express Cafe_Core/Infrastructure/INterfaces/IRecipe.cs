@@ -10,5 +10,6 @@ namespace Express_Cafe_Core.Infrastructure.INterfaces
 {
 	public interface IRecipe:IGenericRepository<Recipe>
 	{
+		public System.Object GetAllRecipewithRawItemList();
 	}
 }

@@ -78,7 +78,52 @@ namespace Express_Cafe_Core.Infrastructure.Base
             }
         }
 
-        public Task<T> GetById(int id)
+		//public object GetAllRecipewithRawItemList()
+		//{
+		//    var getRecipeItemList = from recipe in _context.Recipes
+		//                            join recipeItems in _context.RecipeItems
+		//                            on recipe.RecipeId equals recipeItems.RecipeId
+		//                            join item in _context.Items
+		//                            on recipeItems.ItemId equals item.ItemId
+		//                            select new
+		//                            {
+		//                                recipe.RecipeId,
+		//                                recipe.RecipeName,
+		//                                item.Name,
+		//                                recipeItems.Quantity,
+		//                                recipeItems.Unit
+		//                            };
+
+		//    return getRecipeItemList;
+		//}
+		public async Task<IEnumerable<object>> GetAllRecipewithRawItemList()
+		{
+			var getRecipeItemList = await (from recipe in _context.Recipes
+									join recipeItems in _context.RecipeItems
+									on recipe.RecipeId equals recipeItems.RecipeId
+									join item in _context.Items
+									on recipeItems.ItemId equals item.ItemId
+									select new
+									{
+										recipe.RecipeId,
+										recipe.RecipeName,
+										item.Name,
+										recipeItems.Quantity,
+										recipeItems.Unit
+									}).ToListAsync();
+          //  var groupRecipes = getRecipeItemList.GroupBy(r => r.RecipeName)
+          //                        .Select(group => new
+          //                        {
+									 // RecipeName=group.Key,
+									 // Ingredients = group
+          //                            .Select(item => new { item.Name, item.Quantity })
+								  //});
+
+			return getRecipeItemList;
+		}
+		
+
+		public Task<T> GetById(int id)
         {
             throw new NotImplementedException();
         }
@@ -99,5 +144,28 @@ namespace Express_Cafe_Core.Infrastructure.Base
         {
             _context.Update(entity);
         }
-    }
+
+		//public object GetAllRecipewithRawItemList()
+		//{
+		//	var getRecipeItemList = from recipe in _context.Recipes
+		//							join recipeItems in _context.RecipeItems
+		//							on recipe.RecipeId equals recipeItems.RecipeId
+		//							join item in _context.Items
+		//							on recipeItems.ItemId equals item.ItemId
+		//							select new
+		//							{
+		//								recipe.RecipeId,
+		//								recipe.RecipeName,
+		//								item.Name,
+		//								recipeItems.Quantity,
+		//								recipeItems.Unit
+		//							};
+
+		//	return getRecipeItemList;
+		//}
+	}
+	//Custom Quries
+
+
 }
+

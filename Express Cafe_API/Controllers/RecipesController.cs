@@ -1,8 +1,10 @@
 ﻿using Express_Cafe_Core.Infrastructure.Base;
+using Express_Cafe_Core.Infrastructure.Repositories;
 using Express_Cafe_Core.Models;
 using Express_Cafe_Core.Utility;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections;
 
 namespace Express_Cafe_API.Controllers
 {
@@ -10,6 +12,7 @@ namespace Express_Cafe_API.Controllers
 	[ApiController]
 	public class RecipesController : ControllerBase
 	{
+		
 		private IUnitOfWork unitofWork;
 		ModelMessage modelsMessage;
 		public RecipesController(IUnitOfWork unitofWork)
@@ -17,13 +20,38 @@ namespace Express_Cafe_API.Controllers
 			this.unitofWork = unitofWork;
 			modelsMessage = new ModelMessage();
 		}
+
+
+		//[HttpGet]
+		//public System.Object GetAllRecipewithRawItemList()
+		//{
+		//	var orders = this.unitofWork.RecipeRepo.GetAllRecipewithRawItemList();
+		//	if (orders == null)
+		//	{
+		//		return NotFound();
+		//	}
+		//	return orders;
+		//}
+
+		[HttpGet]
+		[Route("GetAllRecipesWithRawItems")] // This route works for API
+		public async Task<IActionResult> GetAllRecipesWithRawItems()
+		{
+			var recipes = this.unitofWork.RecipeRepo.GetAllRecipewithRawItemList();
+			if (recipes == null)
+			{
+				return NotFound();
+			}
+			return Ok(recipes);
+		}
+
 		[HttpGet]
 		public async Task<IEnumerable<Recipe>> GetAll()
 		{
 			IEnumerable<Recipe> all = new List<Recipe>();
 			try
 			{
-				all = await this.unitofWork.RecipeRepo.GetAll(null, "RecipeItems");
+				all = await this.unitofWork.RecipeRepo.GetAll(null, "RecipeItems,DailyMenus");
 			}
 
 			catch (Exception ex)
@@ -33,6 +61,7 @@ namespace Express_Cafe_API.Controllers
 
 			return all;
 		}
+
 		[HttpPost]
 		public async Task<IActionResult> PostRecipe(Recipe Recipe)
 		{

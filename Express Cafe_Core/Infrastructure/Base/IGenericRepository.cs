@@ -22,5 +22,8 @@ namespace Express_Cafe_Core.Infrastructure.Base
         void DeletebyID(Expression<Func<T, bool>> predicate);
         void DeleteRange(IEnumerable<T> entitylist);
         void Update(T entity);
-    }
+        //System.Object GetAllRecipewithRawItemList();
+        Task<IEnumerable<object>> GetAllRecipewithRawItemList();
+
+	}
 }
