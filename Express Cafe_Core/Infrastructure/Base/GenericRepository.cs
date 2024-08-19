@@ -1,4 +1,6 @@
-﻿using Express_Cafe_Core.Models;
+﻿using Express_Cafe_Core.Infrastructure.INterfaces;
+using Express_Cafe_Core.Migrations;
+using Express_Cafe_Core.Models;
 using Microsoft.EntityFrameworkCore;
 
 using System;
@@ -103,27 +105,42 @@ namespace Express_Cafe_Core.Infrastructure.Base
 		//Custom Quries
 		public async Task<IEnumerable<object>> GetAllRecipewithRawItemList()
 		{
+            /*
+            var recipeItemsGrouped = await (from recipe in _context.Recipes
+                                            join recipeItems in _context.RecipeItems
+                                            on recipe.RecipeId equals recipeItems.RecipeId
+                                            join item in _context.Items
+                                            on recipeItems.ItemId equals item.ItemId
+                                            group new { recipe, recipeItems, item } by recipe.RecipeId into grouped
+                                            select new
+                                            {
+                                                RecipeId = grouped.Key,
+                                                RecipeName = grouped.FirstOrDefault().recipe.RecipeName,
+                                                RecipeItems = grouped.Select(g => new
+                                                {
+                                                    g.item.Name,
+                                                    g.recipeItems.Quantity,
+                                                    g.recipeItems.Unit
+                                                }).ToList()
+                                            }).ToListAsync();
+            -----Tested
 
-			//var recipeItemsGrouped = await (from recipe in _context.Recipes
-			//								join recipeItems in _context.RecipeItems
-			//								on recipe.RecipeId equals recipeItems.RecipeId
-			//								join item in _context.Items
-			//								on recipeItems.ItemId equals item.ItemId
-			//								group new { recipe, recipeItems, item } by recipe.RecipeId into grouped
-			//								select new
-			//								{
-			//									RecipeId = grouped.Key,
-			//									RecipeName = grouped.FirstOrDefault().recipe.RecipeName,
-			//									RecipeItems = grouped.Select(g => new
-			//									{
-			//										g.item.Name,
-			//										g.recipeItems.Quantity,
-			//										g.recipeItems.Unit
-			//									}).ToList()
-			//								}).ToListAsync();
-			//-----Tested
 
-			var getRecipeItemList = await (from recipe in _context.Recipes
+            group recipeItems by recipe.RecipeId into itemGroup
+
+            var groupRecipes = getRecipeItemList.GroupBy(r => r.RecipeName);
+            var groupRecipes = getRecipeItemList.GroupBy(r => r.RecipeName)
+                               .Select(group => new
+                               {
+                                   RecipeName = group.Key,
+                                   Ingredients = group
+                               .Select(item => new { item.Name, item.Quantity })
+                               });
+
+            return groupRecipes;
+            */
+
+            var getRecipeItemList = await (from recipe in _context.Recipes
 										   join recipeItems in _context.RecipeItems
 										   on recipe.RecipeId equals recipeItems.RecipeId
 										   join item in _context.Items
@@ -136,22 +153,8 @@ namespace Express_Cafe_Core.Infrastructure.Base
 											   recipeItems.Quantity,
 											   recipeItems.Unit
 										   }).ToListAsync();
-
-			//var groupRecipes = getRecipeItemList.GroupBy(r => r.RecipeName);
-
-			// END 
-			//  var groupRecipes = getRecipeItemList.GroupBy(r => r.RecipeName)
-			//                        .Select(group => new
-			//                        {
-			// RecipeName=group.Key,
-			// Ingredients = group
-			//                            .Select(item => new { item.Name, item.Quantity })
-			//});
-
-			return getRecipeItemList;
+            return getRecipeItemList;
 		}
-
-
 	}
 }
 

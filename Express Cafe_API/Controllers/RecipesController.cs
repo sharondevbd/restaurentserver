@@ -34,7 +34,7 @@ namespace Express_Cafe_API.Controllers
 		//}
 
 		[HttpGet]
-		[Route("GetAllRecipesWithRawItems")] // This route works for API
+		[Route("getrecipeTable")] // This route works for API
 		public async Task<IActionResult> GetAllRecipesWithRawItems()
 		{
 			var recipes = this.unitofWork.RecipeRepo.GetAllRecipewithRawItemList();

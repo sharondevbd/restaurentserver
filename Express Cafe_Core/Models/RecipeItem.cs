@@ -17,6 +17,8 @@ public partial class RecipeItem
     public int ItemId { get; set; }
 	//[JsonInclude]
 	//public virtual ICollection<Item>? Item { get; set; } = new List<Item>(); 
+	[JsonIgnore]
+	[NotMapped]
 	public virtual Item? Item { get; set; }
     [JsonIgnore]
     [NotMapped]

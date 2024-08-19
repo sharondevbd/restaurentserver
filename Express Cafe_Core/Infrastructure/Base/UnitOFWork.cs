@@ -59,7 +59,20 @@ namespace Express_Cafe_Core.Infrastructure.Base
 			}
 		}
 
-	
+		public IDailyMenu? dailyMenuRepo;
+		public IDailyMenu DailyMenuRepo
+		{
+			get
+			{
+				if (dailyMenuRepo == null)
+				{
+					dailyMenuRepo = new DailyMenuRepository(_context);
+				}
+				return dailyMenuRepo;
+			}
+		}
+
+
 		public ILoginModelRepository? loginModelRepository;
         public ILoginModelRepository? LoginModelRepository
         {

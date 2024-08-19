@@ -18,6 +18,7 @@ namespace Express_Cafe_Core.Infrastructure.Base
         public ICategory? CategoryRepo { get; }
         public IItem? ItemRepo { get; }
         public IRecipe? RecipeRepo { get; }
+        public IDailyMenu DailyMenuRepo { get; }
         public ILoginModelRepository? LoginModelRepository { get; }
 
 		public IUnit? UnitRepo { get; }
